@@ -1,0 +1,29 @@
+class Solution {
+    public int minLength(String s) {
+
+        //initialise a stack to store the characters in a string
+        Stack<Character> stack =new Stack<>();
+        
+        //iterate through each characters in string
+        for( char ch: s.toCharArray()){
+            
+            //check if the stack is not empty and the first letter of the stack is either A and the next element is B or the first element is C and the next element is D
+           
+            if (!stack.isEmpty() && ((stack.peek() == 'A' && ch == 'B') || (stack.peek() == 'C' && ch == 'D'))){
+                //if so pop the element from the stack
+
+                stack.pop();
+            }
+            else{
+                //else we push the character on to the stack itself
+                stack.push(ch);
+            }
+        }
+        //return the size of the stack 
+
+        return stack.size();
+
+
+        
+    }
+}
