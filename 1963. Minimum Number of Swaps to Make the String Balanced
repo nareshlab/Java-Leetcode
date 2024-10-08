@@ -1,0 +1,27 @@
+class Solution {
+    public int minSwaps(String s) {
+        //declare a variable to count the imbalance brackets
+        int imbalance =0;
+        //declare a varibale a find the maximum value
+        int maximbalance=0;
+        for(char ch:s.toCharArray()){
+            if(ch=='['){
+
+                //if the [ occured, decrement the imbalance
+
+                imbalance--;
+            }
+            else{
+                //if the ] occured, increment the imbalance 
+                imbalance++;
+            }
+            //find the maximum between, maximbalance and imbalance
+
+            maximbalance = Math.max(maximbalance,imbalance);
+
+        }
+        //return the no of swaps
+
+        return (maximbalance+1)/2;
+    }
+}
