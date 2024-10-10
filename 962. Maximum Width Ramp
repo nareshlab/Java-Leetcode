@@ -1,0 +1,28 @@
+class Solution {
+    public int maxWidthRamp(int[] nums) {
+
+        //declare a stack to keep track of the elements
+
+        Stack<Integer> stack =new Stack<>();
+        int n=nums.length;
+        int maxWidth=0;
+        
+        //first we build a decreasing monotonic stack whic stores the elements in decreasing order
+
+        for (int i=0;i<n;i++){
+            if (stack.isEmpty() || nums[stack.peek()]>nums[i]){
+                stack.push(i);
+            }
+        
+        }  
+        //next we check compare the condition from last element to the first element to find the max width
+        for (int j=n-1;j>=0;j--){
+            while(!stack.isEmpty() && nums[stack.peek()]<=nums[j] ){
+
+                maxWidth=Math.max(maxWidth, j-stack.pop());
+            }
+        } 
+        //return the maximum width   
+        return maxWidth;  
+    }
+}
