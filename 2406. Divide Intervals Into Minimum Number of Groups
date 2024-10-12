@@ -1,0 +1,30 @@
+class Solution {
+    public int minGroups(int[][] intervals) {
+        //here overlap in the seens its like he two pairs should not come inside or they should be seperated. for example [1,3]and[5,6] are not overlaping. whereas [4,7]and [1,9] are overlapping since 4,7 comes under the scale of 1,9
+
+        //create a list to store the start and ending points 
+        List<int[]> events = new ArrayList<>();
+        // Create events for each interval
+        for (int[] interval : intervals) {
+            int start = interval[0];
+            int end = interval[1];
+            events.add(new int[] { start, 1 });  // Start of an interval
+            events.add(new int[] { end + 1, -1 });  // End of an interval
+        }
+        
+        // Sort events: if the times are the same, end events (-1) come before start events (1)
+        Collections.sort(events, (a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+
+        int maxGroups = 0;
+        int currentGroups = 0;
+        
+        // Process the events
+        for (int[] event : events) {
+            currentGroups += event[1];  // Add 1 for start, subtract 1 for end
+            maxGroups = Math.max(maxGroups, currentGroups);  // Track the maximum number of groups needed
+        }
+        
+        return maxGroups;
+        
+    }
+}
