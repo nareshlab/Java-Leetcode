@@ -1,0 +1,60 @@
+class Solution {
+    class Pair{
+        char letter;
+        int count;
+
+        Pair(char letter, int count){
+            this.letter=letter;
+            this.count=count;
+        }
+    }
+    public String longestDiverseString(int a, int b, int c) {
+        // Step 1: Create a max heap (priority queue)
+        PriorityQueue<Pair> maxHeap = new PriorityQueue<>((x, y) -> y.count - x.count);
+
+        // Step 2: Add available letters and their counts to the heap
+        if (a > 0) maxHeap.add(new Pair('a', a));
+        if (b > 0) maxHeap.add(new Pair('b', b));
+        if (c > 0) maxHeap.add(new Pair('c', c));
+
+        StringBuilder result = new StringBuilder();
+
+        // Step 3: Greedily build the happy string
+        while (!maxHeap.isEmpty()) {
+            // Take the most frequent letter
+            Pair first = maxHeap.poll();
+
+            // If the last two characters are the same as first.letter, we can't add it
+            if (result.length() >= 2 &&
+                result.charAt(result.length() - 1) == first.letter &&
+                result.charAt(result.length() - 2) == first.letter) {
+
+                // Check if there's another letter we can use
+                if (maxHeap.isEmpty()) {
+                    break; // If no other letter is available, return the current result
+                }
+
+                Pair second = maxHeap.poll();
+                result.append(second.letter);
+                second.count--;
+
+                if (second.count > 0) {
+                    maxHeap.add(second); // Put it back if more of that letter is left
+                }
+
+                // Put the first letter back into the heap
+                maxHeap.add(first);
+            } else {
+                // If the first letter can be added, append it to the result
+                result.append(first.letter);
+                first.count--;
+
+                if (first.count > 0) {
+                    maxHeap.add(first); // Put it back if more of that letter is left
+                }
+            }
+        }
+
+        return result.toString();
+    }
+}
